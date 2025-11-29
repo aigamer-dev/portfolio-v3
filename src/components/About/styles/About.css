@@ -114,11 +114,11 @@
 }
 
 .skills-pills {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, max-content));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
-  justify-content: center;
-  max-width: 100%;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .skill-pill {
@@ -155,11 +155,11 @@
 }
 
 .fun-facts-pills {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(100px, max-content));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .fun-fact-pill {
@@ -217,16 +217,6 @@
   .about-paragraph {
     font-size: var(--text-base);
   }
-  
-  .skills-pills {
-    grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
-    gap: var(--space-2);
-  }
-  
-  .fun-facts-pills {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-2);
-  }
 }
 
 @media (max-width: 480px) {
@@ -241,13 +231,5 @@
   .skills-section-subtle,
   .fun-facts-section {
     padding: var(--space-4);
-  }
-  
-  .skills-pills {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  }
-  
-  .fun-facts-pills {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
