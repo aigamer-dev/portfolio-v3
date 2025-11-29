@@ -5,6 +5,8 @@ import { experienceData } from './experince';
 
 // About section data
 export const aboutData = {
+  description: "Senior Backend/Platform Engineer with expertise in API Development, automation, and full-stack development. With over 4 years of professional experience, I specialize in building scalable backend systems, managing DevOps pipelines, and creating robust APIs. My journey spans from machine learning projects to enterprise-level backend development at Zoho Corp. I'm passionate about clean code, automation, and learning cutting-edge technologies. When I'm not coding, you'll find me following Formula 1 racing, exploring culinary arts, or planning my next road trip.",
+  
   skills: [
     'Python', 'Django', 'FastAPI', 'Java', 'JavaScript', 'React',
     'DevOps', 'Docker', 'Linux', 'Git', 'CI/CD', 'API Development'
