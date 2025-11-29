@@ -203,28 +203,16 @@ function transformAPIData(profileData, projectsData, skillsData, experienceData,
         categories: ["All", ...getUniqueCategories(skillsData)]
     };
 
-    // Transform skills data - sort by proficiency and select dynamically based on character count
-    const sortedSkills = [...skillsData].sort((a, b) => (b.proficiency || 0) - (a.proficiency || 0));
-    
-    // Select skills until we reach approximately 100-120 characters (good for all screen sizes)
-    const targetCharCount = 110;
-    let charCount = 0;
-    const selectedSkills = [];
-    
-    for (const skill of sortedSkills) {
-        const skillLength = skill.name.length;
-        if (charCount + skillLength <= targetCharCount || selectedSkills.length < 6) {
-            selectedSkills.push(skill);
-            charCount += skillLength;
-        } else if (selectedSkills.length >= 6) {
-            break;
-        }
-    }
-    
-    const skills = selectedSkills.map(skill => skill.name);
 
-    // Group skills by category (use selected skills only)
-    const skillsByCategory = groupSkillsByCategory(selectedSkills);
+    // Only include skills present in the API response, in preferred order
+    const apiSkillMap = Object.fromEntries(skillsData.map(skill => [skill.name, skill]));
+
+    const skills = Object.keys(apiSkillMap);
+
+    // Get the full skill objects for the pills, in preferred order
+    const pillSkillObjects = skills.map(name => apiSkillMap[name]);
+    // Group skills by category (only those in the pills)
+    const skillsByCategory = groupSkillsByCategory(pillSkillObjects);
 
     // Transform experience data
     const works = experienceData.map(exp => ({
