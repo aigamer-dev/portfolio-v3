@@ -207,7 +207,23 @@ function transformAPIData(profileData, projectsData, skillsData, experienceData,
     // Only include skills present in the API response, in preferred order
     const apiSkillMap = Object.fromEntries(skillsData.map(skill => [skill.name, skill]));
 
-    const skills = Object.keys(apiSkillMap);
+    // const skills = Object.keys(apiSkillMap);
+    // Get the top 8 skills based on frequency in projects
+    const skillFrequency = {};
+    projects.projects.forEach(project => {
+        project.tech.forEach(skillName => {
+            if (apiSkillMap[skillName]) {
+                skillFrequency[skillName] = (skillFrequency[skillName] || 0) + 1;
+            }
+        });
+    });
+    const sortedSkills = Object.entries(skillFrequency)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+    // Fill remaining slots with other skills from API data
+    const remainingSkills = Object.keys(apiSkillMap).filter(name => !sortedSkills.includes(name));
+    const skills = [...sortedSkills, ...remainingSkills].slice(0, 10);
 
     // Get the full skill objects for the pills, in preferred order
     const pillSkillObjects = skills.map(name => apiSkillMap[name]);
