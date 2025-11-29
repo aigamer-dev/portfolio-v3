@@ -203,13 +203,28 @@ function transformAPIData(profileData, projectsData, skillsData, experienceData,
         categories: ["All", ...getUniqueCategories(skillsData)]
     };
 
-    // Transform skills data - sort by proficiency and take top 10
+    // Transform skills data - sort by proficiency and select dynamically based on character count
     const sortedSkills = [...skillsData].sort((a, b) => (b.proficiency || 0) - (a.proficiency || 0));
-    const topSkills = sortedSkills.slice(0, 10);
-    const skills = topSkills.map(skill => skill.name);
+    
+    // Select skills until we reach approximately 100-120 characters (good for all screen sizes)
+    const targetCharCount = 110;
+    let charCount = 0;
+    const selectedSkills = [];
+    
+    for (const skill of sortedSkills) {
+        const skillLength = skill.name.length;
+        if (charCount + skillLength <= targetCharCount || selectedSkills.length < 6) {
+            selectedSkills.push(skill);
+            charCount += skillLength;
+        } else if (selectedSkills.length >= 6) {
+            break;
+        }
+    }
+    
+    const skills = selectedSkills.map(skill => skill.name);
 
-    // Group skills by category (use top skills only)
-    const skillsByCategory = groupSkillsByCategory(topSkills);
+    // Group skills by category (use selected skills only)
+    const skillsByCategory = groupSkillsByCategory(selectedSkills);
 
     // Transform experience data
     const works = experienceData.map(exp => ({
