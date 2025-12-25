@@ -55,6 +55,11 @@ const Projects = ({ data = projectsData }) => {
     }
   };
 
+  // Filter for featured projects only
+  const featuredProjects = data.projects.filter(
+    (project) => project.featured || project.is_featured
+  );
+
   return (
     <section id="projects" className="projects" ref={ref}>
       <div className="projects-container">
@@ -79,8 +84,13 @@ const Projects = ({ data = projectsData }) => {
             </p>
           </motion.div>
 
-          <div className="projects-grid">
-            {data.projects.map((project, index) => (
+          <div className="projects-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '2rem',
+            alignItems: 'stretch',
+          }}>
+            {featuredProjects.map((project, index) => (
               <motion.div
                 key={index}
                 className="project-card"
@@ -90,6 +100,7 @@ const Projects = ({ data = projectsData }) => {
                   boxShadow: "var(--shadow-xl)"
                 }}
                 onClick={() => handleProjectClick(project)}
+                style={project.size ? { gridColumn: `span ${project.size}` } : {}}
               >
                 <div className="project-header">
                   <div className="project-image">
